@@ -32,7 +32,7 @@ Here we can see a game in which two players have thrown the ball in 10 turns.
 
 The notation of the score is the following:
 
-* The score card has 10 cells with 2 frames each cell and the total score acumulated
+* The score card has 10 cells called frames with 2 parts each one and the total score acumulated
 
 ![frame](./doc/frame.jpg)
 
@@ -56,6 +56,33 @@ Now that we know a little about the game and rules, I will introduce what am i g
 
 First, I will make simple users story in which it will introduce the functionalities about this program. Since this kata is already done by my teacher, the goal is to start writing code to pass the test he wrote in java but translate it to python:
 
-![test-java](./doc/test-java.jpg)
+```java
+TotalScoreHittingPinsTest() {
+
+       # Hitting pins total = 60
+       pins = "12345123451234512345";
+       int total = 60;
+       scoreCard = ScoreCard(pins);
+       scoreCard.calculateScore();
+       assertEquals(total, scoreCard.getTotalScore());
+   }
+
+TotalScoreHittingPinsFailTest() {
+
+       // test symbol -
+
+       pins = "9-9-9-9-9-9-9-9-9-9-";
+       total = 90;
+       scoreCard = ScoreCard(pins);
+       scoreCard.calculateScore();
+       assertEquals(total, scoreCard.getTotalScore());
+
+       pins = "9-3561368153258-7181";
+       total = 82;
+       scoreCard = ScoreCard(pins);
+       scoreCard.calculateScore();
+       assertEquals(total, scoreCard.getTotalScore());
+    }
+```
 
 Then when we have the test translated i will start writing code and refactoring till the goal is completed.
