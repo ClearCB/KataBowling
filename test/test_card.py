@@ -105,3 +105,9 @@ def test_countTotalScore():
     new_card.countTotalScore()
 
     assert new_card.score == 127
+
+    new_card = BowlingCard('9-3561368153258-7181')
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 82

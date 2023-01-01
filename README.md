@@ -88,5 +88,36 @@ TotalScoreHittingPinsFailTest() {
 Then when we have the test translated i will start writing code and refactoring till the goal is completed.
 
 ```python
+@pytest.mark.test_countTotalScore
+def test_countTotalScore():
 
+    new_card = BowlingCard("12345123451234512345")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 60
+
+    new_card = BowlingCard("XXXXXXXXXXXX")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 300
+
+    new_card = BowlingCard("9-9-9-9-9-9-9-9-9-9-")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 90
+
+    new_card = BowlingCard("5/5/5/5/5/5/5/5/5/5/5")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 150
+
+    new_card = BowlingCard('9/9-9/9-12X9/9---XX-')
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 127
 ```

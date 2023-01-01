@@ -91,7 +91,6 @@ class BowlingCard:
 
                     return strikeBonus
 
-
     def countTotalScore(self):
 
         actual_frame = -1
@@ -115,12 +114,3 @@ class BowlingCard:
             else:
 
                 self.score += self.frameScore(frame)
-
-
-if __name__ == '__main__':
-
-    cardStrikes = BowlingCard('9/9-9/9-12X9/9---XX-')
-    cardStrikes.splitFrames()
-    cardStrikes.countTotalScore()
-
-    assert cardStrikes.score == 127
