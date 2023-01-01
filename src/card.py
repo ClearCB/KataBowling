@@ -5,6 +5,7 @@ class BowlingCard:
         self.card = card
         self.frames = []
         self.score = 0
+        self.last_num=0
 
     def splitFrames(self):
 
@@ -42,68 +43,84 @@ class BowlingCard:
 
         return len(self.frames) == 10
 
-    @staticmethod
-    def frameScore(frame):
+    def frameScore(self, frame):
 
         STRIKE = 10
         frame_score = 0
-        for i in frame:
 
+        for i in frame:
+            
             if i == "X":
 
                 frame_score += STRIKE
 
-            elif frame[-1] == "/":
+            elif i == "/":
 
+                frame_score -= self.last_num
                 frame_score += STRIKE
 
-            elif frame[-1] == "-":
+            elif i == "-":
 
-                if frame[0].isdigit():
-                    frame_score += int(frame[0])
-                else:
-                    return 0
+                pass
 
-            elif frame.isdigit():
+            elif i.isdigit():
 
-                sum = 0
-                for num in i:
-
-                    sum += int(num)
-                
-                frame_score += sum 
+                frame_score += int(i)
+                self.last_num = int(i)
 
         return frame_score
+
+    def spareBonusScore(self, frame):
+
+        return self.frameScore(frame[0])
+
+    def strikeBonusScore(self, frames):
+
+        rolls = 0
+        strikeBonus = 0
+
+        for frame in frames:
+
+            for roll in frame:
+
+                rolls += 1
+
+                strikeBonus += self.frameScore(roll)
+            
+                if rolls == 2:
+
+                    return strikeBonus
+
 
     def countTotalScore(self):
 
         actual_frame = -1
-        last_frame_sum = self.frameScore(self.frames[-1])
 
-        for frame in self.frames[:-1]:
+        for frame in self.frames:
 
             actual_frame += 1
-            
+
             if frame[-1] == "/":
 
-                self.score += self.frameScore(self.frames[actual_frame:actual_frame+2])
+                self.score += self.frameScore(frame)
+                self.score += self.spareBonusScore(self.frames[actual_frame+1])
+                continue
 
             if frame == "X":
 
-                if actual_frame == 7 or actual_frame == 8:
+                self.score += self.frameScore(frame)
+                self.score += self.strikeBonusScore(self.frames[actual_frame+1:actual_frame+3])
+                continue
 
-                    self.score += last_frame_sum
-
-                self.score += self.frameScore(self.frames[actual_frame:actual_frame+3])
-            
             else:
 
                 self.score += self.frameScore(frame)
 
+
 if __name__ == '__main__':
 
-    cardStrikes = BowlingCard("9-9-9-9-9-9-9-9-9-9-")
+    cardStrikes = BowlingCard('9/9-9/9-12X9/9---XX-')
     cardStrikes.splitFrames()
     cardStrikes.countTotalScore()
 
-    assert cardStrikes.score == 90
+    assert cardStrikes.score == 127

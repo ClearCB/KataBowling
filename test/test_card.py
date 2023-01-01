@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture
 def card():
 
-    card = BowlingCard("12233445566778899000")
+    card = BowlingCard("12345123451234512345")
     return card
 
 @pytest.fixture
@@ -17,12 +17,10 @@ def cardStrikes():
 def test_splitFrames(cardStrikes, card):
 
     cardStrikes.splitFrames()
-
     assert cardStrikes.frames == ["X", "X", "X", "X", "X" ,"X" ,"X" ,"X" , "X", "XXX"]
 
     card.splitFrames()
-
-    assert card.frames == ["12","23", "34", "45", "56", "67", "78", "89", "90", "00"]
+    assert card.frames == ["12","34", "51", "23", "45", "12", "34", "51", "23", "45"]
 
     card.card='9-9-9-9-9-9-9-9-9-9-'
     card.frames=[]
@@ -46,50 +44,64 @@ def test_framesAreSplit(card):
     assert card.framesAreSplit() == True
 
 @pytest.mark.test_frameScore
-def test_frameScore():
+def test_frameScore(card):
 
 
-    BowlingCard.frameScore("12") == 3
-    BowlingCard.frameScore("4-") == 4
-    BowlingCard.frameScore("--") == 0
-    BowlingCard.frameScore("4/") == 10
-    BowlingCard.frameScore("X") == 10
-    BowlingCard.frameScore("XXX") == 30
-    BowlingCard.frameScore("XX-") == 20
-    BowlingCard.frameScore("X2/") == 20
-    BowlingCard.frameScore("X2-") == 12
+    card.frameScore("12") == 3
+    card.frameScore("4-") == 4
+    card.frameScore("--") == 0
+    card.frameScore("4/") == 10
+    card.frameScore("X") == 10
+    card.frameScore("XXX") == 30
+    card.frameScore("XX-") == 20
+    card.frameScore("X2/") == 20
+    card.frameScore("X2-") == 12
 
+@pytest.mark.test_spareBonusScore
+def test_spareBonusScore(card):
+
+    card.spareBonusScore(["12"]) == 1
+    card.spareBonusScore(["--"]) == 0
+    card.spareBonusScore(["X"]) == 10
+
+@pytest.mark.test_strikeBonuseScore
+def test_strikeBonusScore(card):
+
+    card.strikeBonusScore(["X","X"]) == 20
+    card.strikeBonusScore(["X","-2"]) == 10
+    card.strikeBonusScore(["X","1-"]) == 11
+    card.strikeBonusScore(["24","X"]) == 6
+    card.strikeBonusScore(["5/","XX"]) == 10
 
 @pytest.mark.test_countTotalScore
-def test_countTotalScore(card, cardStrikes):
+def test_countTotalScore():
 
-    card.splitFrames()
-    card.countTotalScore()
+    new_card = BowlingCard("12345123451234512345")
+    new_card.splitFrames()
+    new_card.countTotalScore()
 
-    assert card.score == 91
+    assert new_card.score == 60
 
-    card.card='9-9-9-9-9-9-9-9-9-9-'
-    card.score = 0
-    card.splitFrames()
-    card.countTotalScore()
+    new_card = BowlingCard("XXXXXXXXXXXX")
+    new_card.splitFrames()
+    new_card.countTotalScore()
 
-    assert card.score == 90
+    assert new_card.score == 300
 
-    card.card='12345123451234512345'
-    card.score = 0
-    card.splitFrames()
-    card.countTotalScore()
+    new_card = BowlingCard("9-9-9-9-9-9-9-9-9-9-")
+    new_card.splitFrames()
+    new_card.countTotalScore()
 
-    assert card.score == 60
+    assert new_card.score == 90
 
-    card.card='5/5/5/5/5/5/5/5/5/5/5'
-    card.score = 0
-    card.splitFrames()
-    card.countTotalScore()
+    new_card = BowlingCard("5/5/5/5/5/5/5/5/5/5/5")
+    new_card.splitFrames()
+    new_card.countTotalScore()
 
-    assert card.score == 150
+    assert new_card.score == 150
 
-    cardStrikes.splitFrames()
-    cardStrikes.countTotalScore()
+    new_card = BowlingCard('9/9-9/9-12X9/9---XX-')
+    new_card.splitFrames()
+    new_card.countTotalScore()
 
-    assert cardStrikes.score == 300
+    assert new_card.score == 127
