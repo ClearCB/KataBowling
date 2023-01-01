@@ -5,6 +5,7 @@ class BowlingCard:
         self.card = card
         self.frames = []
         self.score = 0
+        self.last_num=0
 
     def splitFrames(self):
 
@@ -40,19 +41,86 @@ class BowlingCard:
 
     def framesAreSplit(self):
 
-        TEN = 10
-        return len(self.frames) == TEN
+        return len(self.frames) == 10
+
+    def frameScore(self, frame):
+
+        STRIKE = 10
+        frame_score = 0
+
+        for i in frame:
+            
+            if i == "X":
+
+                frame_score += STRIKE
+
+            elif i == "/":
+
+                frame_score -= self.last_num
+                frame_score += STRIKE
+
+            elif i == "-":
+
+                pass
+
+            elif i.isdigit():
+
+                frame_score += int(i)
+                self.last_num = int(i)
+
+        return frame_score
+
+    def spareBonusScore(self, frame):
+
+        return self.frameScore(frame[0])
+
+    def strikeBonusScore(self, frames):
+
+        rolls = 0
+        strikeBonus = 0
+
+        for frame in frames:
+
+            for roll in frame:
+
+                rolls += 1
+
+                strikeBonus += self.frameScore(roll)
+            
+                if rolls == 2:
+
+                    return strikeBonus
+
 
     def countTotalScore(self):
 
-        self.score = 300
+        actual_frame = -1
+
+        for frame in self.frames:
+
+            actual_frame += 1
+
+            if frame[-1] == "/":
+
+                self.score += self.frameScore(frame)
+                self.score += self.spareBonusScore(self.frames[actual_frame+1])
+                continue
+
+            if frame == "X":
+
+                self.score += self.frameScore(frame)
+                self.score += self.strikeBonusScore(self.frames[actual_frame+1:actual_frame+3])
+                continue
+
+            else:
+
+                self.score += self.frameScore(frame)
+
 
 if __name__ == '__main__':
 
-    
-    card = BowlingCard("12345123451234512345")
-    
-    card.card='9-9-9-9-9-9-9-9-9-9-'
-    card.splitFrames()
+    cardStrikes = BowlingCard('9/9-9/9-12X9/9---XX-')
+    cardStrikes.splitFrames()
+    cardStrikes.countTotalScore()
 
-    assert card.frames == ["9-","9-","9-","9-","9-","9-","9-","9-","9-","9-"]
+    assert cardStrikes.score == 127
