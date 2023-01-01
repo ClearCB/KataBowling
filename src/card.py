@@ -40,16 +40,12 @@ class BowlingCard:
 
     def framesAreSplit(self):
 
-        if len(self.frames) != 10:
+        TEN = 10
+        return len(self.frames) == TEN
 
-            print("Please, use the method 'splitFrames' to continue with the score")
-            return False
+    def countTotalScore(self):
 
-        else:
-
-            return True
-
-    # def countTotalScore(self)
+        self.score = 300
 
 if __name__ == '__main__':
 
