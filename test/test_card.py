@@ -45,11 +45,30 @@ def test_framesAreSplit(card):
 
     assert card.framesAreSplit() == True
 
+@pytest.mark.test_frameScore
+def test_frameScore():
+
+
+    BowlingCard.frameScore("12") == 3
+    BowlingCard.frameScore("4-") == 4
+    BowlingCard.frameScore("--") == 0
+    BowlingCard.frameScore("4/") == 10
+    BowlingCard.frameScore("X") == 10
+    BowlingCard.frameScore("XXX") == 30
+    BowlingCard.frameScore("XX-") == 20
+    BowlingCard.frameScore("X2/") == 20
+    BowlingCard.frameScore("X2-") == 12
+
 
 @pytest.mark.test_countTotalScore
-def test_countTotalScore(card):
+def test_countTotalScore(card, cardStrikes):
 
     card.splitFrames()
     card.countTotalScore()
 
-    assert card.score == 300
+    assert card.score == 91
+
+    cardStrikes.splitFrames()
+    cardStrikes.countTotalScore()
+
+    assert cardStrikes.score == 300
