@@ -23,3 +23,33 @@ def test_splitFrames(cardStrikes, card):
     card.splitFrames()
 
     assert card.frames == ["12","23", "34", "45", "56", "67", "78", "89", "90", "00"]
+
+    card.card='9-9-9-9-9-9-9-9-9-9-'
+    card.frames=[]
+    card.splitFrames()
+
+    assert card.frames == ["9-","9-","9-","9-","9-","9-","9-","9-","9-","9-"]
+
+    card.card='9/9-9/9-12X9/9-XXX-'
+    card.frames=[]
+    card.splitFrames()
+
+    assert card.frames == ["9/","9-","9/","9-","12","X","9/","9-","X","XX-"]
+
+@pytest.mark.test_framesAreSplit
+def test_framesAreSplit(card):
+
+    assert card.framesAreSplit() == False
+
+    card.splitFrames()
+
+    assert card.framesAreSplit() == True
+
+
+@pytest.mark.test_countTotalScore
+def test_countTotalScore(card):
+
+    card.splitFrames()
+    card.countTotalScore()
+
+    assert card.score == 300

@@ -4,6 +4,7 @@ class BowlingCard:
 
         self.card = card
         self.frames = []
+        self.score = 0
 
     def splitFrames(self):
 
@@ -15,14 +16,13 @@ class BowlingCard:
         for i in self.card:
 
             index += 1
-
             frame_to_append += i
-
             roll += 1
 
             if i == "X":
 
                 self.frames.append(i)
+                frame_to_append = ""
                 frame += 1
                 roll = 0
 
@@ -38,12 +38,25 @@ class BowlingCard:
                 self.frames.append(self.card[index+1:])
                 break
 
+    def framesAreSplit(self):
+
+        if len(self.frames) != 10:
+
+            print("Please, use the method 'splitFrames' to continue with the score")
+            return False
+
+        else:
+
+            return True
+
+    # def countTotalScore(self)
 
 if __name__ == '__main__':
 
     
     card = BowlingCard("12345123451234512345")
     
+    card.card='9-9-9-9-9-9-9-9-9-9-'
     card.splitFrames()
 
-    assert card.frames == ["12","23", "34", "45", "56", "67", "78", "89", "90", "00"]
+    assert card.frames == ["9-","9-","9-","9-","9-","9-","9-","9-","9-","9-"]
