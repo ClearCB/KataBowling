@@ -68,6 +68,27 @@ def test_countTotalScore(card, cardStrikes):
 
     assert card.score == 91
 
+    card.card='9-9-9-9-9-9-9-9-9-9-'
+    card.score = 0
+    card.splitFrames()
+    card.countTotalScore()
+
+    assert card.score == 90
+
+    card.card='12345123451234512345'
+    card.score = 0
+    card.splitFrames()
+    card.countTotalScore()
+
+    assert card.score == 60
+
+    card.card='5/5/5/5/5/5/5/5/5/5/5'
+    card.score = 0
+    card.splitFrames()
+    card.countTotalScore()
+
+    assert card.score == 150
+
     cardStrikes.splitFrames()
     cardStrikes.countTotalScore()
 

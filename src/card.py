@@ -53,25 +53,25 @@ class BowlingCard:
 
                 frame_score += STRIKE
 
-            elif i[-1] == "/":
+            elif frame[-1] == "/":
 
                 frame_score += STRIKE
 
-            elif i[-1] == "-":
+            elif frame[-1] == "-":
 
-                if i[0].isdigit():
-                    frame_score += (STRIKE - int(i[0]))
+                if frame[0].isdigit():
+                    frame_score += int(frame[0])
                 else:
                     return 0
 
-            elif i.isdigit():
+            elif frame.isdigit():
 
                 sum = 0
                 for num in i:
 
                     sum += int(num)
                 
-                frame_score += STRIKE - sum 
+                frame_score += sum 
 
         return frame_score
 
@@ -102,8 +102,8 @@ class BowlingCard:
 
 if __name__ == '__main__':
 
-    cardStrikes = BowlingCard("XXXXXXXXXXXX")
+    cardStrikes = BowlingCard("9-9-9-9-9-9-9-9-9-9-")
     cardStrikes.splitFrames()
     cardStrikes.countTotalScore()
 
-    assert cardStrikes.score == 300
+    assert cardStrikes.score == 90
