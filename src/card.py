@@ -61,6 +61,7 @@ class BowlingCard:
 
             elif i == "-":
 
+                self.last_num = 0
                 pass
 
             elif i.isdigit():

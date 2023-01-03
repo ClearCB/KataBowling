@@ -111,3 +111,33 @@ def test_countTotalScore():
     new_card.countTotalScore()
 
     assert new_card.score == 82
+
+    new_card = BowlingCard("81-92/X637-52X-62/X")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 122
+
+    new_card = BowlingCard("X35357162-/346-X6/7")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 113
+
+    new_card = BowlingCard("-----4-7-7818/6/8/81")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 88
+
+    new_card = BowlingCard("9-13315-817--38-9-18")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 67
+
+    new_card = BowlingCard("-814179/5/-/1--/7/5-")
+    new_card.splitFrames()
+    new_card.countTotalScore()
+
+    assert new_card.score == 95
