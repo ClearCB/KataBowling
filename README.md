@@ -121,3 +121,9 @@ def test_countTotalScore():
 
     assert new_card.score == 127
 ```
+
+## DDD
+
+Trying to solve this kata but with other solution, we decided to focus on designing the model following the DDD and it would look like this:
+
+![model-ddd](./doc/DDD-bowling-model.drawio.png)
